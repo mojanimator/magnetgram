@@ -58,6 +58,11 @@ class Lang {
   static int REGISTER = 55;
   static int REGISTER_IS_FROM_BOT = 56;
   static int HELP = 57;
+  static int REF_SCORE = 58;
+  static int HOW_WORKS = 59;
+  static int SUPPORT = 60;
+  static int BOT_ENTER = 61;
+  static int TUTORIALS = 62;
 
   static String get(int key) {
     return dict[Variable.LANG][key];
@@ -119,7 +124,7 @@ class Lang {
       SERVER_ERROR: "خطای سرور",
       ERROR_SHOW_VIDEO: "مشکلی در دریافت ویدیو پیش آمد. لطفا مجدد تلاش نمایید",
       ADDED_SCORE: "سکه به شما افزوده شد!",
-      BUY_COIN: "خرید سکه",
+      BUY_COIN: "خرید سکه دلخواه",
       COIN_METHODS: "روش های دریافت سکه",
       FOLLOWING_CHATS: "فالو کردن گروه/کانال های دیوار",
       ADDING_MEMBER_TO_GROUPS: "اد زدن به گروه ها",
@@ -128,6 +133,16 @@ class Lang {
       REGISTER: "ثبت نام",
       REGISTER_IS_FROM_BOT: "گزینه ثبت نام✅ را در ربات تلگرام انتخاب نمایید",
       HELP: "راهنما",
+      REF_SCORE: "اشتراک بنر تبلیغاتی و گرفتن زیرمجموعه",
+      HOW_WORKS: "مگنت گرام چیست؟\n"
+          "برای دیده شدن کانال و گروه خود می توانید آن را در"
+          "دیوار مگنت گرام قرار دهید. برای این کار نیاز به سکه دارید"
+          "که می توانید با فالو کردن گروه ها و کانال های موجود در دیوار"
+          "بدست آورید.\nاین چرخه برای همه تکرار خواهد شد."
+          "\nهمچنین می توانید افراد لفت داده را با دکمه قرمز کنار سکه جریمه کنید.",
+      SUPPORT: "پشتیبانی",
+      BOT_ENTER: "ورود به ربات",
+      TUTORIALS: "آموزش ها",
     },
     "en": {
       HELLO: "Hello",
@@ -184,7 +199,7 @@ class Lang {
       ERROR_SHOW_VIDEO:
           "Some Problem Occurred During Downloading Video. Please Retry Again",
       ADDED_SCORE: "Coins Added To Your Coins !",
-      BUY_COIN: "Buy Coin",
+      BUY_COIN: "Buy Custom Coin",
       COIN_METHODS: "Getting Coins Methods",
       FOLLOWING_CHATS: "Following Chats",
       ADDING_MEMBER_TO_GROUPS: "Add Member To Groups",
@@ -193,6 +208,16 @@ class Lang {
       REGISTER: "Register",
       REGISTER_IS_FROM_BOT: "Please Select Register✅ In Telegram Bot",
       HELP: "Help",
+      REF_SCORE: "Share Advertisement Banner And Get Referral Member",
+      HOW_WORKS: "What is Magnet Gram ? \n "
+          "For Increase Your Telegram Chats You Can Register It \n"
+          "In Magnet Gram Wall. For Doing It You Need Coins.\n"
+          "You Can Get Coins With Following Chats In The Wall.\n"
+          "This Process Repeats For Every Chats In The Wall.\n"
+          "Also You Can Penalise Left Members With Red Button Beside Coins Button",
+      SUPPORT: "Support",
+      BOT_ENTER: "Bot",
+      TUTORIALS: "Tutorials",
     }
   };
 }

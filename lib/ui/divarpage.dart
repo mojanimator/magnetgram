@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:magnetgram/helper/Bloc.dart';
 import 'package:magnetgram/helper/helper.dart';
 import 'package:magnetgram/helper/lang.dart';
@@ -21,6 +23,9 @@ class _DivarPageState extends State<DivarPage>
   bool loading;
   DivarBloc _divarBloc;
   Timer _timer;
+  Timer _timer2;
+
+  String _imageUrl;
 
   @override
   bool get wantKeepAlive => true;
@@ -40,10 +45,12 @@ class _DivarPageState extends State<DivarPage>
     SchedulerBinding.instance.addPostFrameCallback((_) => refreshData());
 
     _timer = Timer.periodic(Duration(seconds: 60), (Timer t) => _setDuration());
+    _timer2 = Timer.periodic(Duration(seconds: 1), (Timer t) => _setAdvImage());
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     _divarBloc ??= BlocProvider.of<DivarBloc>(context);
 
     var mediaQuery = MediaQuery.of(context);
@@ -89,7 +96,10 @@ class _DivarPageState extends State<DivarPage>
 //                        controller: _scrollController,
                         itemCount: Helper.divars.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return _grid(Helper.divars[index]);
+                          if (index == 4)
+                            return _nativeAdv();
+                          else
+                            return _grid(Helper.divars[index]);
                         },
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: /* (orientation==Orientation.portrait)?2:*/ grids,
@@ -191,7 +201,53 @@ class _DivarPageState extends State<DivarPage>
     );
   }
 
+  Widget _nativeAdv() {
+    return GestureDetector(
+      child: GridTile(
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          child: Stack(
+            children: <Widget>[
+              TransitionToImage(
+                width: double.infinity,
+                height: double.infinity,
+                forceRebuildWidget: true,
+                disableMemoryCache: true,
+                key: Key("1"),
+                enableRefresh: true,
+                fit: BoxFit.fill,
+                image: AdvancedNetworkImage(_imageUrl ?? "",
+                    useDiskCache: true,
+                    retryLimit: 2,
+                    timeoutDuration: Duration(seconds: 3),
+                    fallbackAssetImage: "images/no-image.jpg"),
+                loadingWidgetBuilder: (_, double progress, __) => Center(
+                  child: CupertinoActivityIndicator(),
+                ),
+                placeholder: Center(child: Image.asset("images/no-image.jpg")),
+              ),
+            ],
+          ),
+        ),
+      ),
+      onTap: () => Helper.clickNativeAdv(),
+      onLongPress: () {},
+    );
+  }
+
   _setDuration() {
     refreshData(data: 'timer');
+  }
+
+  _setAdvImage() {
+    if (Helper.nativeBanner.adId != null || Helper.nativaBannerError == true) {
+      print("Helper.nativeBanner != null");
+      _timer2.cancel();
+      setState(() {
+        _imageUrl = Helper.nativeBanner.portraitStaticImageUrl;
+      });
+    }
   }
 }

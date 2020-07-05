@@ -163,24 +163,28 @@ class _HomePageState extends State<HomePage>
                                           child: Row(
                                             children: <Widget>[
                                               //username
-                                              FittedBox(
-                                                child: Container(
-                                                  margin: const EdgeInsets.only(
-                                                      left: 0.0),
-                                                  padding: const EdgeInsets.all(
-                                                      16.0),
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.black,
-                                                      borderRadius: BorderRadius
-                                                          .horizontal(
-                                                              right: Radius
-                                                                  .circular(
-                                                                      marginTop /
-                                                                          2))),
-                                                  child: Text(
-                                                    user?.telegram_username,
-                                                    style:
-                                                        Styles.TABSELECTEDSTYLE,
+                                              Expanded(
+                                                child: FittedBox(
+                                                  child: Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            left: 0.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16.0),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.black,
+                                                        borderRadius: BorderRadius
+                                                            .horizontal(
+                                                                right: Radius
+                                                                    .circular(
+                                                                        marginTop /
+                                                                            2))),
+                                                    child: Text(
+                                                      user?.telegram_username,
+                                                      style: Styles
+                                                          .TABSELECTEDSTYLE,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -266,20 +270,22 @@ class _HomePageState extends State<HomePage>
                                                       fit: BoxFit.contain,
                                                       height: double.infinity,
                                                     ),
-                                                    Text(
-                                                      user?.score.toString(),
-                                                      style: Styles
-                                                          .TABSELECTEDSTYLE
-                                                          .copyWith(
-                                                              color:
-                                                                  Colors.black,
-                                                              shadows: [
-                                                            BoxShadow(
+                                                    FittedBox(
+                                                      child: Text(
+                                                        user?.score.toString(),
+                                                        style: Styles
+                                                            .TABSELECTEDSTYLE
+                                                            .copyWith(
                                                                 color: Colors
-                                                                    .black)
-                                                          ]),
-                                                      textAlign:
-                                                          TextAlign.center,
+                                                                    .black,
+                                                                shadows: [
+                                                              BoxShadow(
+                                                                  color: Colors
+                                                                      .black)
+                                                            ]),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -301,31 +307,34 @@ class _HomePageState extends State<HomePage>
                                           borderRadius: BorderRadius.horizontal(
                                               left: Radius.circular(
                                                   marginTop / 2))),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(
-                                            physicalPixelWidth / 5),
-                                        child: TransitionToImage(
+                                      child: FittedBox(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10000),
+                                          child: TransitionToImage(
 //                                    key: Key("1"),
-                                          forceRebuildWidget: true,
-                                          enableRefresh: true,
+                                            forceRebuildWidget: true,
+                                            enableRefresh: true,
 
-                                          fit: BoxFit.scaleDown,
-                                          image: AdvancedNetworkImage(
-                                            Helper.getUserImageLink(
-                                                user?.telegram_id),
-                                            retryLimit: 2,
-                                            timeoutDuration:
-                                                Duration(seconds: 10),
-                                            printError: true,
+                                            fit: BoxFit.contain,
+                                            image: AdvancedNetworkImage(
+                                              Helper.getUserImageLink(
+                                                  user?.telegram_id),
+                                              retryLimit: 2,
+                                              timeoutDuration:
+                                                  Duration(seconds: 10),
+                                              printError: true,
+                                            ),
+                                            loadingWidgetBuilder:
+                                                (_, double progress, __) =>
+                                                    Center(
+                                              child:
+                                                  CupertinoActivityIndicator(),
+                                            ),
+                                            placeholder: Center(
+                                                child: Image.asset(
+                                                    "images/no-image.jpg")),
                                           ),
-                                          loadingWidgetBuilder:
-                                              (_, double progress, __) =>
-                                                  Center(
-                                            child: CupertinoActivityIndicator(),
-                                          ),
-                                          placeholder: Center(
-                                              child: Image.asset(
-                                                  "images/no-image.jpg")),
                                         ),
                                       ),
                                     ),
@@ -368,11 +377,15 @@ class _HomePageState extends State<HomePage>
 //                          end: FractionalOffset(0.0, 1.0),
 //                          colors: [Colors.blue, Colors.white])),
                   tabs: <Widget>[
-                    Tab(
-                      text: Lang.get(Lang.DIVAR),
+                    FittedBox(
+                      child: Tab(
+                        text: Lang.get(Lang.DIVAR),
+                      ),
                     ),
-                    Tab(
-                      text: Lang.get(Lang.MYINFO),
+                    FittedBox(
+                      child: Tab(
+                        text: Lang.get(Lang.MYINFO),
+                      ),
                     ),
                   ],
                 ),

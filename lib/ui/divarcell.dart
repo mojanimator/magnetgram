@@ -75,12 +75,14 @@ class _DivarCellState extends State<DivarCell>
   Widget build(BuildContext context) {
     isMember =
         ["administrator", "creator", "member"].contains(widget.divar.role);
-    advanceNetWorkImage = AdvancedNetworkImage(
-        Helper.getChatImageLink(widget.divar.chat_id),
-        useDiskCache: true,
-        retryLimit: 2,
-        timeoutDuration: Duration(seconds: 3),
-        fallbackAssetImage: "images/no-image.jpg");
+    advanceNetWorkImage =
+        AdvancedNetworkImage(Helper.getChatImageLink(widget.divar.chat_id),
+//        useDiskCache: true,
+            disableMemoryCache: true,
+            retryLimit: 2,
+            useDiskCache: true,
+            timeoutDuration: Duration(seconds: 3),
+            fallbackAssetImage: "images/no-image.jpg");
 //    setMainColor(widget.divar.chat_id);
 
     mainImageColor = widget.divar.chat_main_color != null
@@ -140,32 +142,35 @@ class _DivarCellState extends State<DivarCell>
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Hero(
-                    tag: "image${widget.divar.id}",
-                    child: Container(
+                Expanded(
+                  flex: 3,
+                  child: Hero(
+                      tag: "image${widget.divar.id}",
+                      child: Container(
 //                        height: physicalPixelWidth / 18,
 
-                        margin: EdgeInsets.only(top: 8.0, left: 32, right: 32),
+                          margin: EdgeInsets.only(top: 1.0, left: 4, right: 4),
 //                    padding: EdgeInsets.all(16.0),
-                        decoration: new BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: const Color(0x33A6A6A6)),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(1000),
-                          child: TransitionToImage(
-                            key: Key("1"),
-                            enableRefresh: true,
-                            fit: BoxFit.scaleDown,
-                            image: advanceNetWorkImage,
-                            loadingWidgetBuilder: (_, double progress, __) =>
-                                Center(
-                              child: CupertinoActivityIndicator(),
-                            ),
-                            placeholder: Center(
-                                child: Image.asset("images/no-image.jpg")),
+                          decoration: new BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: const Color(0x33A6A6A6)),
                           ),
-                        ))),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(1000),
+                            child: TransitionToImage(
+                              key: Key("1"),
+                              enableRefresh: true,
+                              fit: BoxFit.scaleDown,
+                              image: advanceNetWorkImage,
+                              loadingWidgetBuilder: (_, double progress, __) =>
+                                  Center(
+                                child: CupertinoActivityIndicator(),
+                              ),
+                              placeholder: Center(
+                                  child: Image.asset("images/no-image.jpg")),
+                            ),
+                          ))),
+                ),
                 Expanded(
                   flex: 1,
                   child: MyFitBox(

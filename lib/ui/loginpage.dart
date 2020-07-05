@@ -134,6 +134,8 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                 Text(
                   Lang.get(Lang.REGISTER_IS_FROM_BOT),
                   style: Styles.TEXTSTYLE,
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.right,
                 )
               ],
             ),

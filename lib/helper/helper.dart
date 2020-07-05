@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -17,6 +18,7 @@ import 'package:magnetgram/ui/loginpage.dart';
 import 'package:magnetgram/ui/myapp.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tapsell_plus/TapsellPlusNativeBanner.dart';
 import 'package:tapsell_plus/tapsell_plus.dart';
 
 class Helper {
@@ -35,6 +37,9 @@ class Helper {
   static BuildContext chatContext;
 
   static int lastSeenVideo;
+
+  static TapsellPlusNativeBanner nativeBanner = TapsellPlusNativeBanner();
+  static bool nativaBannerError = false;
 
 //  static MobileAdTargetingInfo targetingInfo;
 //  static BannerAd bannerAd;
@@ -89,7 +94,7 @@ class Helper {
 
       if (parsedJson['access_token'] != null) {
         localStorage.setString('access_token', parsedJson['access_token']);
-        print(parsedJson['access_token']);
+//        print(parsedJson['access_token']);
       }
       if (parsedJson['refresh_token'] != null) {
         localStorage.setString('refresh_token', parsedJson['refresh_token']);
@@ -113,7 +118,7 @@ class Helper {
       // print(response.body);
 
       var parsedJson = json.decode(response.body);
-      print('logout');
+//      print('logout');
 
       //status 400=user not found
       //status 200=successfull logout
@@ -133,7 +138,7 @@ class Helper {
     }).catchError((e) {
       showMessage(context, e.toString());
       print(e.toString());
-      print(e);
+//      print(e);
     });
   }
 
@@ -145,11 +150,14 @@ class Helper {
       if (accessToken != '')
         return client.post(
           newURI,
-          headers: {"Content-Type": "application/json"},
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + accessToken
+          },
         ).then((http.Response response) async {
           if (response.statusCode == 401) {
             logout(context);
-            print('null');
+//            print('null');
             return null;
           }
           if (response.statusCode != 200) return null;
@@ -168,7 +176,7 @@ class Helper {
         });
     } catch (e) {
 //      showMessage(context, e.toString());
-      print("error in my helper  $e.toString()");
+//      print("error in my helper  $e.toString()");
       return null;
 //      throw Exception(e.toString());
     }
@@ -194,7 +202,7 @@ class Helper {
       });
     } catch (e) {
 //      showMessage(context, e.toString());
-      print("error in my helper  $e.toString()");
+//      print("error in my helper  $e.toString()");
       return null;
 //      throw Exception(e.toString());
     }
@@ -218,7 +226,7 @@ class Helper {
         ).then((http.Response response) async {
           if (response.statusCode == 401) {
             logout(context);
-            print('null');
+//            print('null');
             return null;
           }
           if (response.statusCode != 200) return null;
@@ -230,18 +238,18 @@ class Helper {
                 context, " ${response.body} " + Lang.get(Lang.LEFT_FOUND));
         }, onError: (e) {
           showMessage(context, Lang.get(Lang.CHECK_NETWORK));
-          print("onError" + e.toString());
+//          print("onError" + e.toString());
           return null;
         });
       } catch (e) {
-        print("catch");
+//        print("catch");
         showMessage(context, Lang.get(Lang.CHECK_NETWORK));
         return null;
       }
     else {
       //token not found ,move to login page
       logout(context);
-      print('null');
+//      print('null');
       return null;
     }
   }
@@ -263,25 +271,25 @@ class Helper {
         ).then((http.Response response) async {
           if (response.statusCode == 401) {
             logout(context);
-            print('null');
+//            print('null');
             return null;
           }
           if (response.statusCode != 200) return null;
           return response.body;
         }, onError: (e) {
           showMessage(context, Lang.get(Lang.CHECK_NETWORK));
-          print("onError" + e.toString());
+//          print("onError" + e.toString());
           return null;
         });
       } catch (e) {
-        print("catch");
+//        print("catch");
         showMessage(context, Lang.get(Lang.CHECK_NETWORK));
         return null;
       }
     else {
       //token not found ,move to login page
       logout(context);
-      print('null');
+//      print('null');
       return null;
     }
   }
@@ -304,7 +312,7 @@ class Helper {
         ).then((http.Response response) async {
           if (response.statusCode == 401) {
             logout(context);
-            print('null');
+//            print('null');
             return null;
           }
 
@@ -314,18 +322,18 @@ class Helper {
           return parsedJson;
         }, onError: (e) {
           showMessage(context, Lang.get(Lang.CHECK_NETWORK));
-          print("onError" + e.toString());
+//          print("onError" + e.toString());
           return null;
         });
       } catch (e) {
-        print("catch");
+//        print("catch");
         showMessage(context, Lang.get(Lang.CHECK_NETWORK));
         return null;
       }
     else {
       //token not found ,move to login page
       logout(context);
-      print('null');
+//      print('null');
       return null;
     }
   }
@@ -348,7 +356,7 @@ class Helper {
         ).then((http.Response response) async {
           if (response.statusCode == 401) {
             logout(context);
-            print('null');
+//            print('null');
             return null;
           }
 
@@ -358,19 +366,19 @@ class Helper {
           return parsedJson;
         }, onError: (e) {
           showMessage(context, Lang.get(Lang.CHECK_NETWORK));
-          print("onError" + e.toString());
+//          print("onError" + e.toString());
           return null;
         });
       } catch (e) {
-        print("catch getSettings");
-        print("$e");
+//        print("catch getSettings");
+//        print("$e");
         showMessage(context, Lang.get(Lang.CHECK_NETWORK));
         return null;
       }
     else {
       //token not found ,move to login page
       logout(context);
-      print('null');
+//      print('null');
       return null;
     }
   }
@@ -394,7 +402,7 @@ class Helper {
           List<Chat> chats = List<Chat>();
           if (response.statusCode == 401) {
             logout(context);
-            print('null');
+//            print('null');
             return null;
           }
 
@@ -409,18 +417,18 @@ class Helper {
           return chats;
         }, onError: (e) {
           showMessage(context, Lang.get(Lang.CHECK_NETWORK));
-          print("onError" + e.toString());
+//          print("onError" + e.toString());
           return null;
         });
       } catch (e) {
-        print("catch");
+//        print("catch");
         showMessage(context, Lang.get(Lang.CHECK_NETWORK));
         return null;
       }
     else {
       //token not found ,move to login page
       logout(context);
-      print('null');
+//      print('null');
       return null;
     }
   }
@@ -442,7 +450,7 @@ class Helper {
         ).then((http.Response response) async {
           if (response.statusCode == 401) {
             logout(context);
-            print('null');
+//            print('null');
             return null;
           }
 
@@ -454,18 +462,18 @@ class Helper {
           return Chat.fromJson(parsedJson);
         }, onError: (e) {
           showMessage(context, Lang.get(Lang.CHECK_NETWORK));
-          print("onError" + e.toString());
+//          print("onError" + e.toString());
           return null;
         });
       } catch (e) {
-        print("catch");
+//        print("catch");
         showMessage(context, Lang.get(Lang.CHECK_NETWORK));
         return null;
       }
     else {
       //token not found ,move to login page
       logout(context);
-      print('null');
+//      print('null');
       return null;
     }
   }
@@ -488,8 +496,7 @@ class Helper {
             tmp = Helper.divars[i].expire_time - 60;
             Helper.divars[i].expire_time = tmp;
 
-            if (tmp - now > 0)
-              divars.add(Helper.divars[i]);
+            if (tmp - now > 0) divars.add(Helper.divars[i]);
 //            else {
 //              needRefresh = true;
 //              break;
@@ -497,10 +504,10 @@ class Helper {
           }
 
 //          if (!needRefresh) {
-            Helper.divars.clear();
-            return Future.delayed(const Duration(milliseconds: 1), () {
-              return divars;
-            });
+          Helper.divars.clear();
+          return Future.delayed(const Duration(milliseconds: 1), () {
+            return divars;
+          });
 //          } else {
 //            Future.delayed(const Duration(milliseconds: 1), () async {
 //              BlocProvider.of<DivarBloc>(context)
@@ -521,7 +528,7 @@ class Helper {
         ).then((http.Response response) async {
           if (response.statusCode == 401) {
             logout(context);
-            print('null');
+//            print('null');
             return null;
           }
           try {
@@ -534,24 +541,24 @@ class Helper {
 
             return divars;
           } catch (e) {
-            print("catch $e");
+//            print("catch $e");
             showMessage(context, Lang.get(Lang.CHECK_NETWORK));
             return null;
           }
         }, onError: (e) {
           showMessage(context, Lang.get(Lang.CHECK_NETWORK));
-          print("onError" + e.toString());
+//          print("onError" + e.toString());
           return null;
         });
       } catch (e) {
-        print("catch $e");
+//        print("catch $e");
         showMessage(context, Lang.get(Lang.CHECK_NETWORK));
         return null;
       }
     else {
       //token not found ,move to login page
       logout(context);
-      print('null');
+//      print('null');
       return null;
     }
   }
@@ -597,18 +604,18 @@ class Helper {
           return users;
         }, onError: (e) {
           showMessage(context, Lang.get(Lang.CHECK_NETWORK));
-          print("onError" + e.toString());
+//          print("onError" + e.toString());
           return null;
         });
       } catch (e) {
-        print("catch");
+//        print("catch");
         showMessage(context, Lang.get(Lang.CHECK_NETWORK));
         return null;
       }
     else {
       //token not found ,move to login page
       logout(context);
-      print('null');
+//      print('null');
       return null;
     }
   }
@@ -633,23 +640,23 @@ class Helper {
             logout(context);
             return null;
           }
-          print(response.body);
+//          print(response.body);
           if (response.statusCode != 200) return null;
           return response.body;
         }, onError: (e) {
           showMessage(context, Lang.get(Lang.CHECK_NETWORK));
-          print("onError" + e.toString());
+//          print("onError" + e.toString());
           return null;
         });
       } catch (e) {
-        print("catch");
+//        print("catch");
         showMessage(context, Lang.get(Lang.CHECK_NETWORK));
         return null;
       }
     else {
       //token not found ,move to login page
       logout(context);
-      print('null');
+//      print('null');
       return null;
     }
   }
@@ -679,18 +686,18 @@ class Helper {
           return response.body;
         }, onError: (e) {
           showMessage(context, Lang.get(Lang.CHECK_NETWORK));
-          print("onError" + e.toString());
+//          print("onError" + e.toString());
           return null;
         });
       } catch (e) {
-        print("catch $e");
+//        print("catch $e");
         showMessage(context, Lang.get(Lang.CHECK_NETWORK));
         return null;
       }
     else {
       //token not found ,move to login page
       logout(context);
-      print('null');
+//      print('null');
       return null;
     }
   }
@@ -823,23 +830,52 @@ class Helper {
   //ADVS Section
   static void initTapsell() async {
 //    await TapsellPlus.initialize(appIds['TAPSELL_KEY_TEST']);
-    TapsellPlus.initialize(appIds["TAPSELL_KEY_TEST"].toString());
+    TapsellPlus.initialize(appIds["TAPSELL_KEY"].toString());
+
+    Future.delayed(Duration(seconds: 10), () {
+      Helper.requestNativeBanner();
+    });
+
+//    while (nativeBanner == null)
+//      try {
+//        print("test" + nativeBanner);
+//        sleep(const Duration(seconds: 1));
+//        Helper.requestNativeBanner();
+//      } catch (e) {
+//        continue;
+//      }
+  }
+
+  static void requestNativeBanner() {
+    TapsellPlus.requestNativeBanner(appIds["TAPSELL_NATIVE_BANNER"], (res) {
+//      print(res.adId + "--------------------------------");
+      nativeBanner.adId = res.adId;
+      nativeBanner.portraitStaticImageUrl = res.portraitStaticImageUrl;
+    }, (zoneId, errorMessage) {
+      nativaBannerError = true;
+//      print(errorMessage.toString() + "++++++++++++++++++++++++++++++");
+    });
+  }
+
+  static void clickNativeAdv() {
+    TapsellPlus.nativeBannerAdClicked(
+        appIds["TAPSELL_NATIVE_BANNER"], Helper.nativeBanner.adId);
   }
 
   static void requestRewardedVideo(
       {@required VoidCallback success, @required VoidCallback error}) {
     TapsellPlus.requestRewardedVideo(
-        appIds["TAPSELL_REWARDED_VIDEO_TEST"].toString(),
+        appIds["TAPSELL_REWARDED_VIDEO"].toString(),
         (zoneId) => success() /*(zoneId)*/,
         (zoneId, errorMessage) => error() /*(zoneId, errorMessage)*/);
   }
 
   static void showRewardedVideo({@required VoidCallback rewarded}) {
-    TapsellPlus.showAd(appIds["TAPSELL_REWARDED_VIDEO_TEST"].toString(),
+    TapsellPlus.showAd(appIds["TAPSELL_REWARDED_VIDEO"].toString(),
         opened: (zoneId) => opened(zoneId),
         closed: (zoneId) => closed(zoneId),
-        rewarded: (zoneId) => rewarded() /*(zoneId)*/,
-        error: (zoneId, errorMessage) => error(zoneId, errorMessage));
+        error: (zoneId, errorMessage) => error(zoneId, errorMessage),
+        rewarded: (zoneId) => rewarded()); /*(zoneId)*/
   }
 
   static error(zoneId, errorMessage) {

@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:magnetgram/helper/helper.dart';
 import 'package:magnetgram/helper/lang.dart';
 import 'package:magnetgram/helper/style.dart';
 import 'package:magnetgram/helper/variables.dart';
@@ -59,120 +58,166 @@ class _HelpPageState extends State<HelpPage>
             backgroundColor: Colors.transparent,
             body: Builder(
               builder: (context) => SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.all(0),
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Text(
-                        " 💡 " + Lang.get(Lang.HELP),
-                        style: Styles.TABSELECTEDSTYLE,
-                        textDirection: TextDirection.rtl,
-                      ),
-                      color: Styles.primaryColor,
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Text(
-                      " 🚩 " +
-                          Lang.get(Lang.FOLLOWING_CHATS) +
-                          " (${Helper.settings['follow_score']} 💰) ",
-                      style: Styles.TEXTSTYLE,
-                      textDirection: TextDirection.rtl,
-                    ),
-                    Text(
-                      " 🚩 " +
-                          Lang.get(Lang.ADDING_MEMBER_TO_GROUPS) +
-                          " (${Helper.settings['add_score']} 💰) ",
-                      style: Styles.TEXTSTYLE,
-                      textDirection: TextDirection.rtl,
-                    ),
-                    SizedBox(
-                      height: 50.0,
-                    ),
-                    Text(
-                      " 🚩 " +
-                          Lang.get(Lang.SEEING_VIDEO) +
-                          " (${Helper.settings['see_video_score']} 💰) ",
-                      style: Styles.TEXTSTYLE
-                          .copyWith(fontWeight: FontWeight.bold),
-                      textDirection: TextDirection.rtl,
-                    ),
-                    Row(
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Expanded(
-                          child: RaisedButton.icon(
-                            onPressed: () async {},
-                            padding: EdgeInsets.symmetric(vertical: 32.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0))),
-                            icon: Icon(
-                              Icons.videocam,
-                              color: Colors.white,
-                              textDirection: TextDirection.rtl,
-                            ),
-                            label: FittedBox(
-                              child: Text(
-                                Lang.get(Lang.SEEING_VIDEO) +
-                                    " ( ${Helper.settings["see_video_score"]} 💰 ) ",
-                                style: Styles.TABSELECTEDSTYLE,
+                        Container(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              FittedBox(
+                                child: Text(
+                                  " 💡 " + Lang.get(Lang.HELP),
+                                  style: Styles.TABSELECTEDSTYLE,
+                                  textDirection: TextDirection.rtl,
+                                ),
                               ),
-                            ),
-//                                        textColor: Colors.white,
-                            splashColor: Styles.secondaryColor,
-                            color: Styles.successColor,
+                            ],
                           ),
-                        )
+                          color: Styles.primaryColor,
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Text(
+                          " 🚩 " + Lang.get(Lang.HOW_WORKS),
+                          style: Styles.TEXTSTYLE,
+                          textDirection: TextDirection.rtl,
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: RaisedButton.icon(
+                                  onPressed: () async {
+                                    if (await canLaunch(
+                                        "https://instagram.com/_u/develowper")) {
+                                      await launch(
+                                          "https://instagram.com/_u/develowper");
+                                    } else {
+                                      await launch(
+                                          "https://instagram.com/develowper");
+                                    }
+                                  },
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 16.0),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  icon: Icon(
+                                    Icons.phone_in_talk,
+                                    color: Colors.white,
+                                    textDirection: TextDirection.rtl,
+                                  ),
+                                  label: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      Lang.get(Lang.SUPPORT),
+                                      style: Styles.TABSELECTEDSTYLE,
+                                    ),
+                                  ),
+//                                        textColor: Colors.white,
+                                  splashColor: Styles.secondaryColor,
+                                  color: Colors.deepPurpleAccent,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: RaisedButton.icon(
+                                  onPressed: () async {
+                                    if (await canLaunch(
+                                        "https://telegram.me/${Variable.BOT_ID}")) {
+                                      await launch(
+                                          "https://telegram.me/${Variable.BOT_ID}");
+                                    }
+                                  },
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 16.0),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  icon: Icon(
+                                    Icons.android,
+                                    color: Colors.white,
+                                    textDirection: TextDirection.rtl,
+                                  ),
+                                  label: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      Lang.get(Lang.BOT_ENTER),
+                                      style: Styles.TABSELECTEDSTYLE,
+                                    ),
+                                  ),
+//                                        textColor: Colors.white,
+                                  splashColor: Styles.secondaryColor,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: RaisedButton.icon(
+                                  onPressed: () async {
+                                    if (await canLaunch(
+                                        "https://www.aparat.com/playlist/449893")) {
+                                      await launch(
+                                          "https://www.aparat.com/playlist/449893");
+                                    }
+                                  },
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 16.0),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  icon: Icon(
+                                    Icons.live_tv,
+                                    color: Colors.white,
+                                    textDirection: TextDirection.rtl,
+                                  ),
+                                  label: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      Lang.get(Lang.TUTORIALS),
+                                      style: Styles.TABSELECTEDSTYLE,
+                                    ),
+                                  ),
+//                                        textColor: Colors.white,
+                                  splashColor: Styles.secondaryColor,
+                                  color: Colors.teal,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Text(
-                      " ⚡ " + Lang.get(Lang.BUY_COIN),
-                      style: Styles.TEXTSTYLE
-                          .copyWith(fontWeight: FontWeight.bold),
-                      textDirection: TextDirection.rtl,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: RaisedButton.icon(
-                            onPressed: () async {
-                              if (await canLaunch(
-                                  "https://telegram.me/${Variable.ADMIN_ID}")) {
-                                await launch(
-                                    "https://telegram.me/${Variable.ADMIN_ID}");
-                              }
-                            },
-                            padding: EdgeInsets.symmetric(vertical: 32.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0))),
-                            icon: Icon(
-                              Icons.account_balance_wallet,
-                              color: Colors.white,
-                              textDirection: TextDirection.rtl,
-                            ),
-                            label: FittedBox(
-                              child: Text(
-                                Lang.get(Lang.BUY_COIN),
-                                style: Styles.TABSELECTEDSTYLE,
-                              ),
-                            ),
-//                                        textColor: Colors.white,
-                            splashColor: Styles.secondaryColor,
-                            color: Styles.primaryColor,
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
