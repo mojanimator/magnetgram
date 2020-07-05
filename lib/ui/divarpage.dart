@@ -156,7 +156,9 @@ class _DivarPageState extends State<DivarPage>
     if (data == null) {
       Helper.divars.clear();
       Helper.prepare(context);
-
+      if (!_timer2.isActive)
+        _timer2 =
+            Timer.periodic(Duration(seconds: 1), (Timer t) => _setAdvImage());
       BlocProvider.of<UserBloc>(Helper.userContext)
           .sink
           .add(await Helper.getUser(context, {'for': 'me'}));
@@ -242,12 +244,24 @@ class _DivarPageState extends State<DivarPage>
   }
 
   _setAdvImage() {
-    if (Helper.nativeBanner.adId != null || Helper.nativaBannerError == true) {
-      print("Helper.nativeBanner != null");
-      _timer2.cancel();
+//    print("_setAdvImage");
+//    if (Helper.nativeBanner.adId != null || Helper.nativaBannerError == true) {
+
+    Helper.requestNativeBanner(response: (res) {
+//      print(res.portraitStaticImageUrl +
+//          "--------------------------------" +
+//          res.adId);
+      Helper.nativeBanner.adId = res.adId;
+      Helper.nativeBanner.portraitStaticImageUrl = res.portraitStaticImageUrl;
+      Helper.nativaBannerError = false;
       setState(() {
         _imageUrl = Helper.nativeBanner.portraitStaticImageUrl;
       });
-    }
+      _timer2.cancel();
+    }, error: (zoneId, errorMessage) {
+      Helper.nativaBannerError = true;
+
+//      print(errorMessage.toString() + "++++++++++++++++++++++++++++++");
+    });
   }
 }

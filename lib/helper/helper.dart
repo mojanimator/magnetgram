@@ -832,9 +832,9 @@ class Helper {
 //    await TapsellPlus.initialize(appIds['TAPSELL_KEY_TEST']);
     TapsellPlus.initialize(appIds["TAPSELL_KEY"].toString());
 
-    Future.delayed(Duration(seconds: 10), () {
-      Helper.requestNativeBanner();
-    });
+//    Future.delayed(Duration(seconds: 10), () {
+//      Helper.requestNativeBanner();
+//    });
 
 //    while (nativeBanner == null)
 //      try {
@@ -846,14 +846,14 @@ class Helper {
 //      }
   }
 
-  static void requestNativeBanner() {
+  static void requestNativeBanner({
+    @required Function response,
+    @required Function error,
+  }) {
     TapsellPlus.requestNativeBanner(appIds["TAPSELL_NATIVE_BANNER"], (res) {
-//      print(res.adId + "--------------------------------");
-      nativeBanner.adId = res.adId;
-      nativeBanner.portraitStaticImageUrl = res.portraitStaticImageUrl;
+      response(res);
     }, (zoneId, errorMessage) {
-      nativaBannerError = true;
-//      print(errorMessage.toString() + "++++++++++++++++++++++++++++++");
+      error(zoneId, errorMessage);
     });
   }
 
